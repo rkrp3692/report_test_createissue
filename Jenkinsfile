@@ -25,7 +25,7 @@ pipeline {
                 sh 'npm i -D typescript',
                 sh 'npm i -D @types/node'
             }
-        
+        }
         // stage('help') {
         //     steps {
         //         sh 'npx playwright test --help'
