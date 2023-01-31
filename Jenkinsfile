@@ -11,7 +11,7 @@ pipeline {
                 // echo 'Clone'
                 git branch: 'master', 
                 // credentialsId: 'credentail id',
-                // url: 'https://github.com/rkrp3692/playwright-jenkins.git'
+                url: 'https://github.com/rkrp3692/playwright-jenkins.git'
             }
         }
 
