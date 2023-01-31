@@ -16,15 +16,15 @@ pipeline {
         }
 
 
-        stage('install playwright'){
-            steps {
-                // sh '''
-                // npm i -D @playwright/test
-                // npx playwright install
-                // '''
-                sh 'tsc --init'
-            }
-        }
+        // stage('install playwright'){
+        //     steps {
+        //         // sh '''
+        //         // npm i -D @playwright/test
+        //         // npx playwright install
+        //         // '''
+        //         sh 'tsc --init'
+        //     }
+        
         // stage('help') {
         //     steps {
         //         sh 'npx playwright test --help'
