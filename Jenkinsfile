@@ -22,8 +22,8 @@ pipeline {
                 // npm i -D @playwright/test
                 // npx playwright install
                 // '''
-                sh 'npm i -D typescript',
-                sh 'npm i -D @types/node'
+                echo 'npm i -D typescript',
+                echo 'npm i -D @types/node'
             }
         }
         // stage('help') {
