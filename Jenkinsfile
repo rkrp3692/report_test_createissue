@@ -22,8 +22,7 @@ pipeline {
                 // npm i -D @playwright/test
                 // npx playwright install
                 // '''
-                sh 'tsc --init',
-                sh 'npm i -D cucumber chai @types/cucumber @types/chai'
+                sh 'tsc --init'
             }
         }
         // stage('help') {
