@@ -6,15 +6,25 @@ pipeline {
     //     }
     // }
     stages {
-        stage('install playwright'){
+        stage('clone') {
             steps {
-                // sh '''
-                // npm i -D @playwright/test
-                // npx playwright install
-                // '''
-                sh 'npm i'
+                echo 'Clone'
+                git branch: 'master', 
+                credentialsId: 'credentail id',
+                url: 'https://github.com/rkrp3692/playwright-jenkins.git'
             }
         }
+
+
+        // stage('install playwright'){
+        //     steps {
+        //         // sh '''
+        //         // npm i -D @playwright/test
+        //         // npx playwright install
+        //         // '''
+        //         sh 'npm i'
+        //     }
+        // }
         // stage('help') {
         //     steps {
         //         sh 'npx playwright test --help'
