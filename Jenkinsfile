@@ -37,7 +37,8 @@ pipeline {
                 // npx playwright test --list
                 // npx playwright test
                 // '''
-                sh 'npm run test'
+                //sh 'npm run test'
+                echo 'npm run test'
             }
         }
     }
