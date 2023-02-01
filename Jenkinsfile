@@ -93,21 +93,53 @@ pipeline {
         //     junit 'build/reports/**/*.xml'
         // }
 
-        always {
-            cucumber buildStatus: 'UNSTABLE',
-                failedFeaturesNumber: 1,
-                failedScenariosNumber: 1,
-                skippedStepsNumber: 1,
-                failedStepsNumber: 1,
-                // classifications: [
-                //         [key: 'Commit', value: '<a href="${GERRIT_CHANGE_URL}">${GERRIT_PATCHSET_REVISION}</a>'],
-                //         [key: 'Submitter', value: '${GERRIT_PATCHSET_UPLOADER_NAME}']
-                // ],
-                reportTitle: 'My report',
-                fileIncludePattern: '**/*cucumber-report.json',
-                // sortingMethod: 'ALPHABETICAL',
-                // trendsLimit: 100
-        }
+        // always {
+        //     cucumber buildStatus: 'UNSTABLE',
+        //         failedFeaturesNumber: 1,
+        //         failedScenariosNumber: 1,
+        //         skippedStepsNumber: 1,
+        //         failedStepsNumber: 1,
+        //         // classifications: [
+        //         //         [key: 'Commit', value: '<a href="${GERRIT_CHANGE_URL}">${GERRIT_PATCHSET_REVISION}</a>'],
+        //         //         [key: 'Submitter', value: '${GERRIT_PATCHSET_UPLOADER_NAME}']
+        //         // ],
+        //         reportTitle: 'My report',
+        //         fileIncludePattern: '**/*cucumber-report.json',
+        //         // sortingMethod: 'ALPHABETICAL',
+        //         // trendsLimit: 100
+        // }
+
+         failure {
+
+  	      echo "Test failed"
+                      cucumber buildStatus: 'FAIL',
+                                   failedFeaturesNumber: 1,
+                                   failedScenariosNumber: 1,
+                                   skippedStepsNumber: 1,
+                                   failedStepsNumber: 1,
+                                   fileIncludePattern: '**/*.json',
+                                   sortingMethod: 'ALPHABETICAL'
+
+          slackSend color: 'red', message: "${params.reportname} Tests failed. >> Click to view <$reportUrl|report>"
+
+  	     }
+
+  	      success {
+
+          echo "Test succeeded"
+                     cucumber buildStatus: 'SUCCESS',
+                                            failedFeaturesNumber: 0,
+                                            failedScenariosNumber: 0,
+                                            skippedStepsNumber: 0,
+                                            failedStepsNumber: 0,
+                                            fileIncludePattern: '**/*.json',
+                                            sortingMethod: 'ALPHABETICAL'
+
+          slackSend color: 'green', message: "${params.reportname} Tests passed. >> Click to view <$reportUrl|report>"
+
+          }
+
+
     }
 
 
