@@ -41,5 +41,89 @@ pipeline {
                 echo 'npm run test'
             }
         }
+
+        // stage('Import results to Xray') {
+
+        //     echo paramValue
+        //     final String responseKey = sh(script: '''curl YOURURL''', returnStdout: true).trim()
+        //     def jsonObj = readJSON text: responseKey
+        //     String application = "PARSEOBJ"
+        //     echo application
+
+        //     def description = "[BUILD_URL|${env.BUILD_URL}]"
+        //     def environment = "DEV"
+        //     def testEnvironmentFieldName = "YOURFIELDNAME"
+        //     def testExecutionFieldId = YOURID
+        //     def testPlanFieldId = YOURID
+        //     def issuetypeName = "Test Execution"
+        //     def projectKey = "MPREM"
+        //     def xrayConnectorId = 'YOURID'
+
+        //     def info = '''{
+        //                     "fields": {
+        //                         "project": {
+        //                             "id": "ID"
+        //                         },
+        //                         "summary": "Test Execution for Test Plan ''' + paramValue +' '+ env.BUILD_TIME +''' ",
+        //                         "issuetype": {
+        //                             "id": "ID"
+        //                         },
+        //                         "CUSTOMFIELD": {
+        //                             "id": ""
+        //                         }
+        //                     },
+        //                     "xrayFields": {
+        //                             "testPlanKey": "''' + paramValue + '''"
+        //                     }
+        //                 }'''
+
+        //     echo info
+        //     step([$class: 'XrayImportBuilder', endpointName: '/cucumber/multipart', importFilePath: 'target/cucumber.json', importInfo: info, inputInfoSwitcher: 'fileContent', serverInstance: xrayConnectorId])
+
+
+        // }
     }
+    post {
+        // success {
+        //     archiveArtifacts(archiveArtifacts: 'homepage-*.png',followSymlinks: false)
+        //     sh 'rm -rf *.png'
+        // }
+
+        // always {
+        //     junit 'build/reports/**/*.xml'
+        // }
+
+        always {
+            cucumber buildStatus: 'UNSTABLE',
+                failedFeaturesNumber: 1,
+                failedScenariosNumber: 1,
+                skippedStepsNumber: 1,
+                failedStepsNumber: 1,
+                // classifications: [
+                //         [key: 'Commit', value: '<a href="${GERRIT_CHANGE_URL}">${GERRIT_PATCHSET_REVISION}</a>'],
+                //         [key: 'Submitter', value: '${GERRIT_PATCHSET_UPLOADER_NAME}']
+                // ],
+                reportTitle: 'My report',
+                fileIncludePattern: '**/*cucumber-report.json',
+                // sortingMethod: 'ALPHABETICAL',
+                // trendsLimit: 100
+        }
+    }
+
+
+
+//  post { 
+//     always { 
+//         publishHTML([ allowMissing: false,  
+//         alwaysLinkToLastBuild: true,  
+//         keepAll: true,  
+//         reportDir: 'playwright-report',  
+//         reportFiles: 'index.html',  
+//         reportName: 'Playwright Test Report',  
+//         reportTitles: '']) 
+//         } 
+//         }
+
+
+
 }
