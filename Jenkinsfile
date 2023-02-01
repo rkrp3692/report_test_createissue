@@ -47,7 +47,7 @@ pipeline {
             steps {
                 cucumber buildStatus: "UNSTABLE",
                 fileIncludePattern: "**/cucumber-json",
-                jsonReportDirecoty: 'C:\ProgramData\Jenkins\.jenkins\jobs\playwright jenkinsfile\builds\38\cucumber-html-reports\test'
+                // jsonReportDirecoty: 'target'
             }
         }
 
