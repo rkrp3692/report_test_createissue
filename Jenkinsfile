@@ -153,7 +153,6 @@ pipeline {
             // cucumber buildStatus: 'UNSTABLE',
             
             //  cucumber fileIncludePattern: '**/cucumber-report.json'
-             cucumber 
                 // buildStatus: 'UNSTABLE',
                 // failedFeaturesNumber: 1,
                 // failedScenariosNumber: 1,
