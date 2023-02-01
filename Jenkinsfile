@@ -149,12 +149,12 @@ pipeline {
 
         //   }
 
-        // always {
-        //     // cucumber buildStatus: 'UNSTABLE',
-        //     cucumber fileIncludePattern: '**/cucumber.json'
-        //     // jsonReportDirecoty: 'target'
-        //     // sortingMethod: 'ALPHABETICAL'
-        // }
+        always {
+            // cucumber buildStatus: 'UNSTABLE',
+            cucumber fileIncludePattern: '**/cucumber.json'
+            // jsonReportDirecoty: 'target'
+            // sortingMethod: 'ALPHABETICAL'
+        }
 
         // success {
         //                 cucumber buildStatus: 'null', 
@@ -172,10 +172,10 @@ pipeline {
         //                 undefinedStepsNumber: -1
         //         }
 
-        always {
-            archiveArtifacts artifacts: 'build/libs/**/*.jar', fingerprint: true
-            junit 'build/reports/**/*.xml'
-        }
+        // always {
+        //     archiveArtifacts artifacts: 'build/libs/**/*.jar', fingerprint: true
+        //     junit 'build/reports/**/*.xml'
+        // }
 
      }
 
