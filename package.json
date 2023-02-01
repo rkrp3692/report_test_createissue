@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-     "test": "tsc && cucumber-js features -f json:cucumber-reporter.json"
+      "test": "tsc && cucumber-js features -f json:cucumber-reporter.json"
   },
   "keywords": [],
   "author": "",

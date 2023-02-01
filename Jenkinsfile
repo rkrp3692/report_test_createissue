@@ -152,7 +152,8 @@ pipeline {
         always {
             // cucumber buildStatus: 'UNSTABLE',
             
-             cucumber fileIncludePattern: '**/*cucumber-report.json'
+             cucumber fileIncludePattern: '**/*cucumber-report.json',
+             jsonReportDirecoty: 'target'
             // jsonReportDirecoty: 'target'
             // sortingMethod: 'ALPHABETICAL'
         }
