@@ -44,13 +44,7 @@ pipeline {
         }
 
 
-        stage('Cucumber Reports'){
-            steps {
-                fileIncludePattern: "*.json"
-                //  cucumber fileIncludePattern: "**/cucumber-json"
-                // jsonReportDirecoty: 'target'
-            }
-        }
+  
 
         // stage('Import results to Xray') {
 
@@ -93,42 +87,5 @@ pipeline {
 
         // }
     }
-    //  post {
-  
-        // always {
-        //     junit 'build/reports/**/*.xml'
-        // }
-
-        //  failure {
-
-  	    //   echo "Test failed"
-        //               cucumber buildStatus: 'FAIL',
-        //                            failedFeaturesNumber: 1,
-        //                            failedScenariosNumber: 1,
-        //                            skippedStepsNumber: 1,
-        //                            failedStepsNumber: 1,
-        //                            fileIncludePattern: '**/*.json',
-        //                            sortingMethod: 'ALPHABETICAL'
-
-        //   slackSend color: 'red', message: "${params.reportname} Tests failed. >> Click to view <$reportUrl|report>"
-
-  	    //  }
-
-  	    //   success {
-
-        //   echo "Test succeeded"
-        //              cucumber buildStatus: 'SUCCESS',
-        //                                     failedFeaturesNumber: 0,
-        //                                     failedScenariosNumber: 0,
-        //                                     skippedStepsNumber: 0,
-        //                                     failedStepsNumber: 0,
-        //                                     fileIncludePattern: '**/*.json',
-        //                                     sortingMethod: 'ALPHABETICAL'
-
-        //   slackSend color: 'green', message: "${params.reportname} Tests passed. >> Click to view <$reportUrl|report>"
-
-        //   }
-
-    //  }
 
 }
