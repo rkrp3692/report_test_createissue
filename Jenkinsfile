@@ -163,10 +163,10 @@ pipeline {
                 //         [key: 'Commit', value: '<a href="${GERRIT_CHANGE_URL}">${GERRIT_PATCHSET_REVISION}</a>'],
                 //         [key: 'Submitter', value: '${GERRIT_PATCHSET_UPLOADER_NAME}']
                 // ],
-                reportTitle: 'My report',
-                fileIncludePattern: '**/*cucumber-report.json',
-                sortingMethod: 'ALPHABETICAL',
-                trendsLimit: 100
+                // reportTitle: 'My report',
+                fileIncludePattern: '**/*cucumber-report.json'
+                // sortingMethod: 'ALPHABETICAL',
+                // trendsLimit: 100
     
             //  jsonReportDirecoty: 'target'
             // jsonReportDirecoty: 'target'
