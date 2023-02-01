@@ -139,7 +139,7 @@ pipeline {
 
         //   }
 
-        finally {
+        always {
             cucumber buildStatus: 'UNSTABLE',
             fileIncludePattern: '**/cucumber.json',
             jsonReportDirecoty: 'target'
