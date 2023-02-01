@@ -156,23 +156,26 @@ pipeline {
         //     // sortingMethod: 'ALPHABETICAL'
         // }
 
-        success {
-                        cucumber buildStatus: 'null', 
-                        customCssFiles: '', 
-                        customJsFiles: '', 
-                        failedFeaturesNumber: -1, 
-                        failedScenariosNumber: -1, 
-                        failedStepsNumber: -1, 
-                        fileIncludePattern: '**/*.json', 
-                        //fileIncludePattern: '**/target/*.json',
-                        // fileIncludePattern: '**/*cucumber-report.json',
-                        pendingStepsNumber: -1, 
-                        skippedStepsNumber: -1, 
-                        sortingMethod: 'ALPHABETICAL', 
-                        undefinedStepsNumber: -1
-                }
+        // success {
+        //                 cucumber buildStatus: 'null', 
+        //                 customCssFiles: '', 
+        //                 customJsFiles: '', 
+        //                 failedFeaturesNumber: -1, 
+        //                 failedScenariosNumber: -1, 
+        //                 failedStepsNumber: -1, 
+        //                 fileIncludePattern: '**/*.json', 
+        //                 //fileIncludePattern: '**/target/*.json',
+        //                 // fileIncludePattern: '**/*cucumber-report.json',
+        //                 pendingStepsNumber: -1, 
+        //                 skippedStepsNumber: -1, 
+        //                 sortingMethod: 'ALPHABETICAL', 
+        //                 undefinedStepsNumber: -1
+        //         }
 
-
+        always {
+            archiveArtifacts artifacts: 'build/libs/**/*.jar', fingerprint: true
+            junit 'build/reports/**/*.xml'
+        }
 
      }
 

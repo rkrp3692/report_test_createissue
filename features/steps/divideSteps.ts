@@ -22,4 +22,5 @@ When("I want to divide {int} by {int}",function(n1:number,n2:number){
 
 Then("the result is {int}",function(expected: number){
     expect(this.actual).to.be.equal(expected);
+
 });
