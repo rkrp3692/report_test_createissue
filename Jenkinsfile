@@ -166,10 +166,7 @@ pipeline {
                 fileIncludePattern: '**/*cucumber-report.json',
                 sortingMethod: 'ALPHABETICAL',
                 trendsLimit: 100
-    }
-
-
-
+    
             //  jsonReportDirecoty: 'target'
             // jsonReportDirecoty: 'target'
             // sortingMethod: 'ALPHABETICAL'
