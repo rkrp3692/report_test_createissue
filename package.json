@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && cucumber-js features/"
+     "test": "tsc && cucumber-js features -f json:cucumber-reporter.json"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +21,8 @@
     "cucumber-html-reporter": "5.5.0",
     "cucumber-junit-convert": "2.1.1",
     "chai": "^4.3.7",
-    "cucumber": "^6.0.7"
+    "cucumber": "^6.0.7",
+    "playwright": "1.30.0",
+    "typescript": "4.9.5"
   }
 }
