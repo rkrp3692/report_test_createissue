@@ -9,9 +9,17 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@cucumber/cucumber": "8.10.0",
+    "@cucumber/html-formatter": "20.2.1",
+    "@cucumber/pretty-formatter": "1.0.0",
+    "cucumber-html-reporter": "5.5.0"
+  },
   "devDependencies": {
     "@types/chai": "^4.3.4",
     "@types/cucumber": "^7.0.0",
+    "cucumber-html-reporter": "5.5.0",
+    "cucumber-junit-convert": "2.1.1",
     "chai": "^4.3.7",
     "cucumber": "^6.0.7"
   }
