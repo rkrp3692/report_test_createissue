@@ -139,10 +139,11 @@ pipeline {
 
         //   }
 
-always {
-            cucumber buildStatus: 'SUCCESS',
-            fileIncludePattern: '**/*.json',
-            sortingMethod: 'ALPHABETICAL'
+        finally {
+            cucumber buildStatus: 'UNSTABLE',
+            fileIncludePattern: '**/cucumber.json',
+            jsonReportDirecoty: 'target'
+            // sortingMethod: 'ALPHABETICAL'
         }
 
 
