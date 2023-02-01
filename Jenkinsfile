@@ -43,26 +43,13 @@ pipeline {
         }
 
 
-        stage ('Cucumber Reports') {
+        // stage('Cucumber Reports'){
             // steps {
             //     fileIncludePattern: "*.json"
             //     //  cucumber fileIncludePattern: "**/cucumber-json"
             //     // jsonReportDirecoty: 'target'
             // }
-             success {
-                        cucumber buildStatus: 'null', 
-                        customCssFiles: '', 
-                        customJsFiles: '', 
-                        failedFeaturesNumber: -1, 
-                        failedScenariosNumber: -1, 
-                        failedStepsNumber: -1, 
-                        fileIncludePattern: '**/*.json', 
-                        pendingStepsNumber: -1, 
-                        skippedStepsNumber: -1, 
-                        sortingMethod: 'ALPHABETICAL', 
-                        undefinedStepsNumber: -1
-                }
-        }
+        // }
 
         // stage('Import results to Xray') {
 
@@ -105,7 +92,7 @@ pipeline {
 
         // }
     }
-    // post {
+     post {
         // success {
         //     archiveArtifacts(archiveArtifacts: 'homepage-*.png',followSymlinks: false)
         //     sh 'rm -rf *.png'
@@ -168,11 +155,23 @@ pipeline {
         //     // sortingMethod: 'ALPHABETICAL'
         // }
 
+        success {
+                        cucumber buildStatus: 'null', 
+                        customCssFiles: '', 
+                        customJsFiles: '', 
+                        failedFeaturesNumber: -1, 
+                        failedScenariosNumber: -1, 
+                        failedStepsNumber: -1, 
+                        fileIncludePattern: '**/*.json', 
+                        pendingStepsNumber: -1, 
+                        skippedStepsNumber: -1, 
+                        sortingMethod: 'ALPHABETICAL', 
+                        undefinedStepsNumber: -1
+                }
 
 
 
-
-    // }
+     }
 
 
 
