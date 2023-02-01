@@ -44,13 +44,13 @@ pipeline {
         }
 
 
-        // stage('Cucumber Reports'){
-            // steps {
-            //     fileIncludePattern: "*.json"
-            //     //  cucumber fileIncludePattern: "**/cucumber-json"
-            //     // jsonReportDirecoty: 'target'
-            // }
-        // }
+        stage('Cucumber Reports'){
+            steps {
+                fileIncludePattern: "*.json"
+                //  cucumber fileIncludePattern: "**/cucumber-json"
+                // jsonReportDirecoty: 'target'
+            }
+        }
 
         // stage('Import results to Xray') {
 
@@ -93,30 +93,10 @@ pipeline {
 
         // }
     }
-     post {
-        // success {
-        //     archiveArtifacts(archiveArtifacts: 'homepage-*.png',followSymlinks: false)
-        //     sh 'rm -rf *.png'
-        // }
-
+    //  post {
+  
         // always {
         //     junit 'build/reports/**/*.xml'
-        // }
-
-        // always {
-        //     cucumber buildStatus: 'UNSTABLE',
-        //         failedFeaturesNumber: 1,
-        //         failedScenariosNumber: 1,
-        //         skippedStepsNumber: 1,
-        //         failedStepsNumber: 1,
-        //         // classifications: [
-        //         //         [key: 'Commit', value: '<a href="${GERRIT_CHANGE_URL}">${GERRIT_PATCHSET_REVISION}</a>'],
-        //         //         [key: 'Submitter', value: '${GERRIT_PATCHSET_UPLOADER_NAME}']
-        //         // ],
-        //         reportTitle: 'My report',
-        //         fileIncludePattern: '**/*cucumber-report.json',
-        //         // sortingMethod: 'ALPHABETICAL',
-        //         // trendsLimit: 100
         // }
 
         //  failure {
@@ -149,66 +129,6 @@ pipeline {
 
         //   }
 
-        always {
-            // cucumber buildStatus: 'UNSTABLE',
-            
-            //  cucumber fileIncludePattern: '**/cucumber-report.json'
-                // buildStatus: 'UNSTABLE',
-                // failedFeaturesNumber: 1,
-                // failedScenariosNumber: 1,
-                // skippedStepsNumber: 1,
-                // failedStepsNumber: 1,
-                // classifications: [
-                //         [key: 'Commit', value: '<a href="${GERRIT_CHANGE_URL}">${GERRIT_PATCHSET_REVISION}</a>'],
-                //         [key: 'Submitter', value: '${GERRIT_PATCHSET_UPLOADER_NAME}']
-                // ],
-                // reportTitle: 'My report',
-                fileIncludePattern: '**/*cucumber-report.json'
-                // sortingMethod: 'ALPHABETICAL',
-                // trendsLimit: 100
-    
-            //  jsonReportDirecoty: 'target'
-            // jsonReportDirecoty: 'target'
-            // sortingMethod: 'ALPHABETICAL'
-        }
-
-        // success {
-        //                 cucumber buildStatus: 'null', 
-        //                 customCssFiles: '', 
-        //                 customJsFiles: '', 
-        //                 failedFeaturesNumber: -1, 
-        //                 failedScenariosNumber: -1, 
-        //                 failedStepsNumber: -1, 
-        //                 fileIncludePattern: '**/*.json', 
-        //                 //fileIncludePattern: '**/target/*.json',
-        //                 // fileIncludePattern: '**/*cucumber-report.json',
-        //                 pendingStepsNumber: -1, 
-        //                 skippedStepsNumber: -1, 
-        //                 sortingMethod: 'ALPHABETICAL', 
-        //                 undefinedStepsNumber: -1
-        //         }
-
-        // always {
-        //     archiveArtifacts artifacts: 'build/libs/**/*.jar', fingerprint: true
-        //     junit 'build/reports/**/*.xml'
-        // }
-
-     }
-
-
-
-//  post { 
-//     always { 
-//         publishHTML([ allowMissing: false,  
-//         alwaysLinkToLastBuild: true,  
-//         keepAll: true,  
-//         reportDir: 'playwright-report',  
-//         reportFiles: 'index.html',  
-//         reportName: 'Playwright Test Report',  
-//         reportTitles: '']) 
-//         } 
-//         }
-
-
+    //  }
 
 }
