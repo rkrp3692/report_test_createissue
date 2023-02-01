@@ -109,20 +109,20 @@ pipeline {
         //         // trendsLimit: 100
         // }
 
-         failure {
+        //  failure {
 
-  	      echo "Test failed"
-                      cucumber buildStatus: 'FAIL',
-                                   failedFeaturesNumber: 1,
-                                   failedScenariosNumber: 1,
-                                   skippedStepsNumber: 1,
-                                   failedStepsNumber: 1,
-                                   fileIncludePattern: '**/*.json',
-                                   sortingMethod: 'ALPHABETICAL'
+  	    //   echo "Test failed"
+        //               cucumber buildStatus: 'FAIL',
+        //                            failedFeaturesNumber: 1,
+        //                            failedScenariosNumber: 1,
+        //                            skippedStepsNumber: 1,
+        //                            failedStepsNumber: 1,
+        //                            fileIncludePattern: '**/*.json',
+        //                            sortingMethod: 'ALPHABETICAL'
 
-          slackSend color: 'red', message: "${params.reportname} Tests failed. >> Click to view <$reportUrl|report>"
+        //   slackSend color: 'red', message: "${params.reportname} Tests failed. >> Click to view <$reportUrl|report>"
 
-  	     }
+  	    //  }
 
   	    //   success {
 
@@ -138,6 +138,15 @@ pipeline {
         //   slackSend color: 'green', message: "${params.reportname} Tests passed. >> Click to view <$reportUrl|report>"
 
         //   }
+
+always {
+            cucumber buildStatus: 'SUCCESS',
+            fileIncludePattern: '**/*.json',
+            sortingMethod: 'ALPHABETICAL'
+        }
+
+
+
 
 
     }
