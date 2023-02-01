@@ -39,6 +39,7 @@ pipeline {
                 // '''
                 //sh 'npm run test'
                 echo 'npm run test'
+                // junit '**/build/test-results/test/*.xml'
             }
         }
 
@@ -162,8 +163,9 @@ pipeline {
                         failedFeaturesNumber: -1, 
                         failedScenariosNumber: -1, 
                         failedStepsNumber: -1, 
-                        // fileIncludePattern: '**/*.json', 
-                        fileIncludePattern: '**/target/*.json',
+                        fileIncludePattern: '**/*.json', 
+                        //fileIncludePattern: '**/target/*.json',
+                        // fileIncludePattern: '**/*cucumber-report.json',
                         pendingStepsNumber: -1, 
                         skippedStepsNumber: -1, 
                         sortingMethod: 'ALPHABETICAL', 
