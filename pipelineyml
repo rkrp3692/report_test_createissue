@@ -1,0 +1,203 @@
+image:
+  name: tmapauto/jdk11bmw:latest
+  username: $DOCKER_HUB_USERNAME
+  password: $DOCKER_HUB_PASSWORD
+  email: $DOCKER_HUB_EMAIL
+
+
+definitions:
+  caches:
+    sonar: ~/.sonar/cache  # Caching SonarCloud artifacts will speed up your build
+  steps:
+    
+    
+    - step: &build-debug
+        name: Debug Build
+        runs-on:
+          - self.hosted
+          - tmap.auto.bmw
+          - macos
+        clone:
+          depth: 1
+        script:
+          - git submodule update --init --depth 1 --recursive
+          - ./gradlew app:assembleBMWDebug app:assembleBMWDebugAndroidTest
+        artifacts:
+          - app/build/**
+          - app/build/outputs/apk/BMW/**/*.apk
+    
+    
+    - step: &build-staging
+        name: Staging Build
+        runs-on:
+          - self.hosted
+          - tmap.auto.bmw
+          - macos
+        clone:
+          depth: 1
+        deployment: staging
+        script:
+          - git submodule update --init --depth 1 --recursive
+          - ./gradlew app:assembleBMWStaging
+          - find app/src/main/ -name "*.java" | rev | cut -d '/' -f1 | rev | sort > app/build/outputs/source_file_list.txt
+          - find app/src/ -name "*Test.java" | rev | cut -d '/' -f1 | rev | sort > app/build/outputs/test_file_list.txt
+        artifacts:
+          - app/build/outputs/apk/BMW/**/*.apk
+          - app/build/outputs/mapping/**/mapping.txt
+          - app/build/outputs/*_list.txt
+    
+    
+    - step: &build-release
+        name: Release Build
+        runs-on:
+          - self.hosted
+          - tmap.auto.bmw
+          - macos
+        clone:
+          depth: 1
+        deployment: production
+        script:
+          - git submodule update --init --depth 1 --recursive
+          - ./gradlew app:assembleBMWRelease
+          - find app/src/main/ -name "*.java" | rev | cut -d '/' -f1 | rev | sort > app/build/outputs/source_file_list.txt
+          - find app/src/ -name "*Test.java" | rev | cut -d '/' -f1 | rev | sort > app/build/outputs/test_file_list.txt
+        artifacts:
+          - app/build/outputs/apk/BMW/**/*.apk
+          - app/build/outputs/mapping/**/mapping.txt
+          - app/build/outputs/*_list.txt
+    
+    
+    - step: &unit-test
+        name: Unit Test
+        runs-on:
+          - self.hosted
+          - tmap.auto.bmw
+          - macos
+        clone:
+          depth: 1
+        script:
+          - git submodule update --init --depth 1 --recursive
+          - ./gradlew app:testBMWDebugUnitTest
+        artifacts:
+          - app/build/**
+    
+    
+    - step: &static-analysis
+        name: Statis Analysis
+        runs-on:
+          - self.hosted
+          - tmap.auto.bmw
+          - macos
+        caches:
+          - sonar
+        clone:
+          depth: full # SonarCloud scanner needs the full history to assign issues properly
+        script:
+          - git submodule update --init --depth 1 --recursive
+          - ./gradlew app:jacocoTestReport app:sonarqube
+    
+    
+    - step: &install-app
+        name: Install apk to Emulator
+        runs-on:
+          - self.hosted
+          - tmap.auto.bmw
+          - macos
+        clone:
+          enabled: false
+        script:
+          - adb kill-server
+          - adb devices
+          - adb -s $ADB_DEVICE root
+          - adb -s $ADB_DEVICE uninstall com.bmwgroup.apinext.navigation.korea || true
+          - adb -s $ADB_DEVICE uninstall com.bmwgroup.apinext.navigation.korea.test || true
+          - adb -s $ADB_DEVICE install -t -r -d -g app/build/outputs/apk/BMW/debug/*.apk
+          - adb -s $ADB_DEVICE install -t -r -d -g app/build/outputs/apk/androidTest/BMW/debug/*.apk
+        #   - adb -s $ADB_DEVICE shell pm enable --user 10 com.bmwgroup.apinext.navigation.korea
+    
+    
+    - step: &integration-test
+        name: Integration Test
+        runs-on:
+          - self.hosted
+          - tmap.auto.bmw
+          - macos
+        clone:
+          depth: 1
+        script:
+          - git submodule update --init --depth 1 --recursive
+          - ANDROID_SERIAL=$ADB_DEVICE ./gradlew app:connectedBMWDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.skt.tmap.auto.activity.TestSuite
+        artifacts:
+          - app/build/outputs/code_coverage/**
+
+    
+
+    - step: &tag-deploy-staging
+        name: Tag Version & Deploy for Staging
+        runs-on:
+          - self.hosted
+          - tmap.auto.bmw
+          - macos
+        clone:
+          depth: full
+        script:
+          - git remote set-url origin $BITBUCKET_GIT_SSH_ORIGIN
+          - TAG_NAME=`find app/build/outputs/apk/BMW/staging -name "*.apk" -type f -exec basename {} .apk \;`
+          - git tag $TAG_NAME $BITBUCKET_COMMIT
+          - git push origin --tags
+          - git pull --tags
+          - find app/build/outputs/apk/BMW -name "*.apk" -exec curl -u tmap-auto-devops:$APP_PASSWORD --request POST --url "https://api.bitbucket.org/2.0/repositories/${BITBUCKET_WORKSPACE}/${BITBUCKET_REPO_SLUG}/downloads" -F files=@{} \;
+          - python scripts/deploy_to_wiki.py -st $LAST_RELEASE_TAG -et $TAG_NAME app/build/outputs/apk/BMW/**/*.apk app/build/outputs/mapping/**/*.txt app/build/outputs/*_list.txt
+    
+    
+    - step: &tag-deploy-release
+        name: Tag Version & Deploy
+        runs-on:
+          - self.hosted
+          - tmap.auto.bmw
+          - macos
+        clone:
+          depth: full
+        script:
+          - git remote set-url origin $BITBUCKET_GIT_SSH_ORIGIN
+          - TAG_NAME=`find app/build/outputs/apk/BMW/release -name "*.apk" -type f -exec basename {} .apk \;`
+          - git tag $TAG_NAME $BITBUCKET_COMMIT
+          - git push origin --tags
+          - git pull --tags
+          - find app/build/outputs/apk/BMW -name "*.apk" -exec curl -u tmap-auto-devops:$APP_PASSWORD --request POST --url "https://api.bitbucket.org/2.0/repositories/${BITBUCKET_WORKSPACE}/${BITBUCKET_REPO_SLUG}/downloads" -F files=@{} \;
+          - python scripts/deploy_to_wiki.py -st $LAST_RELEASE_TAG -et $TAG_NAME app/build/outputs/apk/BMW/**/*.apk app/build/outputs/mapping/**/*.txt app/build/outputs/*_list.txt
+
+
+
+pipelines:
+  branches:
+    Develop/main:
+      - step: *build-debug
+      - step: *build-staging
+      - step: *tag-deploy-staging
+    production:
+      - step: *build-debug
+      - step: *install-app
+      - step: *sanity-test
+      - step: *build-release
+      - step: *tag-deploy-staging
+
+
+
+  pull-requests:
+    '**':
+      - step: *build-debug
+      - step: *unit-test
+      - step: *static-analysis
+
+
+
+  custom:
+    full-build:
+      - step: *build-debug
+      - step: *unit-test
+      - step: *install-app
+      - step: *integration-test
+      - step: *static-analysis
+      - step: *build-staging
+      - step: *tag-deploy-staging
