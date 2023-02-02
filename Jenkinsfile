@@ -44,9 +44,12 @@ pipeline {
         }
 
 
-    
 
-  
+        stage('Deploy'){
+            steps {
+                
+            }
+        }
 
         // stage('Import results to Xray') {
 
