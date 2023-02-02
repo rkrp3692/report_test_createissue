@@ -1,10 +1,10 @@
 pipeline {
-    agent any                                           //파이프라인 실행할 위치: 레이블 관계없이 모든 에이전트
-    // {
-    //     docker {                                                 //docker image에서 실행
-    //         image 'mcr.microsoft.com/playwright:v1.17.2-focal'
-    //     }
-    // }
+    agent                                         
+    {
+        docker {                                                 //docker image에서 실행
+            image 'mcr.microsoft.com/playwright:v1.17.2-focal'
+        }
+    }
 
 options {
     // Keep the 10 most recent builds
@@ -66,25 +66,29 @@ options {
                 // npx playwright test --list
                 // npx playwright test
                 // '''
-                //sh 'npm run test'
-                echo 'npm run test'
+
+                // echo 'npm run test'
+                sh 'npm install'
+                sh 'npx playwright test'
+                // echo 'set PLAYWRIGHT_JSON_OUTPUT_NAME=results.json
+                //         npx playwright test --reporter=json'
                 // junit '**/build/test-results/test/*.xml'
                                                     
             }
 
-            post {
-                success {
-                    //publish html
-                     publishHTML target: [                   
-                        allowMissing: false,
-                        alwaysLinkToLastBuild: false,
-                        keepAll: true,
-                        reportDir: 'coverage',
-                        reportFiles: 'index.html',
-                        reportName: 'RCov Report'
-                        ]
-                        }
-            }
+            // post {
+            //     success {
+            //         //publish html
+            //          publishHTML target: [                   
+            //             allowMissing: false,
+            //             alwaysLinkToLastBuild: false,
+            //             keepAll: true,
+            //             reportDir: 'coverage',                  //C:\ProgramData\Jenkins\.jenkins\workspace\playwright jenkinsfile\coverage
+            //             reportFiles: 'index.html',
+            //             reportName: 'RCov Report'
+            //             ]
+            //             }
+            // }
 
         }
         // post {

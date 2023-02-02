@@ -1,0 +1,56 @@
+{
+  "config": {
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {},
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/TB-NTB-133/Desktop/cucumber tsflow copy/typescript-cucumber/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/TB-NTB-133/Desktop/cucumber tsflow copy/typescript-cucumber",
+        "testIgnore": [],
+        "testMatch": [
+          "**/?(*.)@(spec|test).*"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 15000
+    },
+    "configFile": "C:\\Users\\TB-NTB-133\\Desktop\\cucumber tsflow copy\\typescript-cucumber\\playwright.config.ts",
+    "rootDir": "C:/Users/TB-NTB-133/Desktop/cucumber tsflow copy/typescript-cucumber",
+    "quiet": false,
+    "shard": null,
+    "updateSnapshots": "missing",
+    "version": "1.29.2",
+    "workers": 3,
+    "webServer": null
+  },
+  "suites": [],
+  "errors": [
+    {
+      "message": "=================\n no tests found.\n=================",
+      "__isNotAFatalError": true
+    }
+  ]
+}
