@@ -1,10 +1,37 @@
 pipeline {
-    agent any
+    agent any                                           //파이프라인 실행할 위치: 레이블 관계없이 모든 에이전트
     // {
     //     docker {
     //         image 'mcr.microsoft.com/playwright:v1.17.2-focal'
     //     }
     // }
+
+options {
+    // Keep the 10 most recent builds
+    buildDiscarder(logRotator(numToKeepStr:'10'))       //가장 최근 실행 10개 보존
+  }
+
+    // stages {
+    //     stage ('Build') {
+    //         steps {
+    //             // sh 'bundle install'
+    //             // sh 'bundle exec rake build spec'
+    //             // archive includes: 'pkg/*.gem'
+
+    //             // publish html
+    //     publishHTML target: [
+    //         allowMissing: false,
+    //         alwaysLinkToLastBuild: false,
+    //         keepAll: true,
+    //         reportDir: 'coverage',
+    //         reportFiles: 'index.html',
+    //         reportName: 'RCov Report'
+    //         ]
+        
+    //       }
+    //     }
+    // }
+
     stages {
         stage('clone') {
             steps {
@@ -31,7 +58,9 @@ pipeline {
         //         sh 'npx playwright test --help'
         //     }
         // }
-        stage('test') {
+
+
+        stage('Test') {
             steps {
                 // sh '''
                 // npx playwright test --list
@@ -40,6 +69,15 @@ pipeline {
                 //sh 'npm run test'
                 echo 'npm run test'
                 // junit '**/build/test-results/test/*.xml'
+
+                publishHTML target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: true,
+                    reportDir: 'coverage',
+                    reportFiles: 'index.html',
+                    reportName: 'RCov Report'
+            ]
             }
         }
 
