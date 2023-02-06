@@ -1,150 +1,57 @@
 pipeline {
-    agent                                         
-    {
-        docker {                                                 //docker image에서 실행
-            image 'mcr.microsoft.com/playwright:v1.17.2-focal'
-        }
-    }
-
-options {
-    // Keep the 10 most recent builds
-    buildDiscarder(logRotator(numToKeepStr:'10'))       //가장 최근 실행 10개 보존
-  }
-
-    // stages {
-    //     stage ('Build') {
-    //         steps {
-    //             // sh 'bundle install'
-    //             // sh 'bundle exec rake build spec'
-    //             // archive includes: 'pkg/*.gem'
-
-    //             // publish html
-    //     publishHTML target: [
-    //         allowMissing: false,
-    //         alwaysLinkToLastBuild: false,
-    //         keepAll: true,
-    //         reportDir: 'coverage',
-    //         reportFiles: 'index.html',
-    //         reportName: 'RCov Report'
-    //         ]
-        
-    //       }
-    //     }
-    // }
-
+    agent any
+    
     stages {
-        stage('clone') {
+        // stage('git clone') {
+        //     steps() {
+        //         git 'https://github.com/leeseok0916/jenkinsTest.git'
+        //     }
+        // }
+        
+
+        stage('build') {
             steps {
-                // echo 'Clone'
-                git branch: 'master', 
-                // credentialsId: 'credentail id',
-                url: 'https://github.com/rkrp3692/playwright-jenkins.git'
+                git branch: 'master',
+                url: 'https://github.com/rkrp3692/report_test1.git'
+                // sh "npm install"
             }
         }
-
-
-        // stage('install typescript'){
-        //     steps {
-        //         // sh '''
-        //         // npm i -D @playwright/test
-        //         // npx playwright install
-        //         // '''
-        //         echo 'npm i -D typescript',
-        //         echo 'npm i -D @types/node'
-        //     }
-        // }
-        // stage('help') {
-        //     steps {
-        //         sh 'npx playwright test --help'
-        //     }
-        // }
 
 
         stage('Test') {
             steps {
-                // sh '''
-                // npx playwright test --list
-                // npx playwright test
-                // '''
-
-                // echo 'npm run test'
-                sh 'npm install'
-                sh 'npx playwright test'
-                // echo 'set PLAYWRIGHT_JSON_OUTPUT_NAME=results.json
-                //         npx playwright test --reporter=json'
-                // junit '**/build/test-results/test/*.xml'
-                                                    
+                echo 'npm install'
+                echo 'npx playwright test'
             }
-
-            // post {
-            //     success {
-            //         //publish html
-            //          publishHTML target: [                   
-            //             allowMissing: false,
-            //             alwaysLinkToLastBuild: false,
-            //             keepAll: true,
-            //             reportDir: 'coverage',                  //C:\ProgramData\Jenkins\.jenkins\workspace\playwright jenkinsfile\coverage
-            //             reportFiles: 'index.html',
-            //             reportName: 'RCov Report'
-            //             ]
-            //             }
-            // }
-
         }
-        // post {
-        //      always {
-        //         echo "Send notifications for result: ${currentBuild.result}"
-        //         }
-        // }
 
+        
+    //     post {
+    //             // If Maven was able to run the tests, even if some of the test
+    //             // failed, record the test results and archive the jar file.
+    //             success {
+    //                     cucumber buildStatus: 'null', 
+    //                     customCssFiles: '', 
+    //                     customJsFiles: '', 
+    //                     failedFeaturesNumber: -1, 
+    //                     failedScenariosNumber: -1, 
+    //                     failedStepsNumber: -1, 
+    //                     fileIncludePattern: '**/*.json', 
+    //                     pendingStepsNumber: -1, 
+    //                     skippedStepsNumber: -1, 
+    //                     sortingMethod: 'ALPHABETICAL', 
+    //                     undefinedStepsNumber: -1
+    //             }
 
-        // stage('Deploy'){
-        //     steps {
-
-        //     }
-        // }
-
-        // stage('Import results to Xray') {
-
-        //     echo paramValue
-        //     final String responseKey = sh(script: '''curl YOURURL''', returnStdout: true).trim()
-        //     def jsonObj = readJSON text: responseKey
-        //     String application = "PARSEOBJ"
-        //     echo application
-
-        //     def description = "[BUILD_URL|${env.BUILD_URL}]"
-        //     def environment = "DEV"
-        //     def testEnvironmentFieldName = "YOURFIELDNAME"
-        //     def testExecutionFieldId = YOURID
-        //     def testPlanFieldId = YOURID
-        //     def issuetypeName = "Test Execution"
-        //     def projectKey = "MPREM"
-        //     def xrayConnectorId = 'YOURID'
-
-        //     def info = '''{
-        //                     "fields": {
-        //                         "project": {
-        //                             "id": "ID"
-        //                         },
-        //                         "summary": "Test Execution for Test Plan ''' + paramValue +' '+ env.BUILD_TIME +''' ",
-        //                         "issuetype": {
-        //                             "id": "ID"
-        //                         },
-        //                         "CUSTOMFIELD": {
-        //                             "id": ""
-        //                         }
-        //                     },
-        //                     "xrayFields": {
-        //                             "testPlanKey": "''' + paramValue + '''"
-        //                     }
-        //                 }'''
-
-        //     echo info
-        //     step([$class: 'XrayImportBuilder', endpointName: '/cucumber/multipart', importFilePath: 'target/cucumber.json', importInfo: info, inputInfoSwitcher: 'fileContent', serverInstance: xrayConnectorId])
-
-
-        // }
+    // }
 
     }
+
+    post {
+            success {
+                echo 'test success'
+            }
+
+        }
 
 }
